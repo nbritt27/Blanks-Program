@@ -5,3 +5,7 @@ The only thing you will have to import in addition is python-pptx, which can be 
 ```
 pip install python-pptx
 ```
+To run the actual program, run 
+```
+python GUI.py
+```
