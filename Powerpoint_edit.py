@@ -23,40 +23,42 @@ def convert_presentation(thisFile, thisBlankIntensity):
             if not shape.has_text_frame:#If it's not a text-frame
                 continue#don't go through the rest of the program
 
-            for paragraph in shape.text_frame.paragraphs:
+            for paragraph in shape.text_frame.paragraphs:#Go through each part of the paragraph
+                #Instance variables
                 file_split=[]
                 paragraph_text=""
                 study_sentences_filled_text=""
                 study_sentences_text=""
-                for run in paragraph.runs:
+                for run in paragraph.runs:#Go through each sentence in the paragraph
 
-                    text_runs.append(run.text)
-                    study_sentences_filled_text+=(run.text.encode('ascii', 'ignore').decode('ascii'))         
-                    file_split=run.text.split()
-                    for a in range(len(file_split)-1):
-                        for b in checkList:
-                            if file_split[a]==b:
-                                continue  
+                    text_runs.append(run.text)#Add that sentence to the array
+                    study_sentences_filled_text+=(run.text.encode('ascii', 'ignore').decode('ascii'))#Add the correct answer in case of a quiz later         
+                    file_split=run.text.split()#Split the sentence
+                    for a in range(len(file_split)-1):#Go through each word in the sentence
+                        for b in checkList:#Go through the checklist
+                            if file_split[a]==b:#If the word is in the checklist
+                                continue  #Definitely don't add a blank
                         #if (random.randint(0, round(len(file_split[a])/int(thisBlankIntensity)))==0):
-                        if (random.randint(0, round((10/len(file_split[a])))*int(thisBlankIntensity))==0):
+                        if (random.randint(0, round((10/len(file_split[a])))*int(thisBlankIntensity))==0):#If at random this word is chosen
                         
-                            file_split[a]="____"
-                    file_split_string=" ".join(file_split)
-                    study_sentences_text+=file_split_string
-                    paragraph_text+=file_split_string
-                study_sentences.append(study_sentences_text)
-                study_sentences_filled.append(study_sentences_filled_text)
-                paragraph.text=paragraph_text
+                            file_split[a]="____"#Make the word a blank
+                    file_split_string=" ".join(file_split)#Join the sentence back together
+                    study_sentences_text+=file_split_string#Add the sentence to the one of the possible questions
+                    paragraph_text+=file_split_string#Add the sentence to the paragraph
+                study_sentences.append(study_sentences_text)#Add the sentence to the possible questions
+                study_sentences_filled.append(study_sentences_filled_text)#Add a filled version of the sentence to the answer key
+                paragraph.text=paragraph_text#Change the text to include the blanks
     print(study_sentences)
     study_sentences_revised=study_sentences
     study_sentences_filled_revised=study_sentences_filled
     newFileString=""
-    for i in range(len(thisFile)-1):
-        if (len(thisFile)-1)-i>4:
-            newFileString+=thisFile[i]
-    newFileString+="_blanks.pptx"
+    
+    for i in range(len(thisFile)-1):#Go through each character of the file name
+        if (len(thisFile)-1)-i>4:#Make sure you don't include the powerpoint extension
+            newFileString+=thisFile[i]#Add the file name without the extension to the string
+    newFileString+="_blanks.pptx"#Add the extension
     print(newFileString)
-    prs.save(str(newFileString))
+    prs.save(str(newFileString))#Save the file
 '''def question_check(i):
     global index
     if i in valuesChecked:
@@ -67,6 +69,7 @@ def convert_presentation(thisFile, thisBlankIntensity):
         question_check(index)
         '''
 def study_blanks():
+    #Instance variables
     global current_label
     global study_answer
     global study_sentences
@@ -75,6 +78,7 @@ def study_blanks():
     study_answer=[]
     current_label=""
     current_label_local=""
+    #End of instance variables
     if(len(study_sentences_revised)!=0):
         index=random.randint(0, len(study_sentences_revised)-1)
         print(index)
