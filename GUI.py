@@ -10,6 +10,8 @@ class App:
         self.numCorrect=0.0
         self.total=0.0
         self.showingReviewButton=False
+        self.currentPoint=""
+        self.currentPointAnswer=""
 
         self.intro_label=Label(master, text="Welcome to Blanks!")
         self.photo = PhotoImage(file="Britt_logo_0_0_1.gif")
@@ -36,24 +38,30 @@ class App:
         self.goButton.pack(side=LEFT)
 
     def go(self):
+        self.choose_file.pack_forget()
+        self.goButton.pack_forget()
         powerpoint_convert.convert_presentation(self.filename, self.blank_intensity.get("1.0", END))
         self.study_button=Button(self.frame, text="Study", command=self.study)
         self.study_button.pack(side=LEFT)
     def reviewMissed(self):
+        
+        #powerpoint_convert.reviewingMissed=True
         powerpoint_convert.study_sentences_revised=powerpoint_convert.missed
         powerpoint_convert.study_sentences_filled_revised=powerpoint_convert.missed_filled
+        print("study_sentences_revised: ")
         print(powerpoint_convert.study_sentences_revised)
+        print("study_sentences_filled_revised: ")
+        print(powerpoint_convert.study_sentences_filled_revised)
+        #print(powerpoint_convert.study_sentences_revised)
         next(self)
     def study(self):
+        self.study_button.pack_forget()
         if(self.total-self.numCorrect==1):
             if(self.showingReviewButton==False):
                 self.review_button=Button(self.frame, text="Review Missed", command=self.reviewMissed)
                 self.review_button.pack()
                 self.showingReviewButton=True
-        print(self.numCorrect)
-        print(self.total)
-        if(self.total!=0):
-            print(str(self.numCorrect/self.total)*100)
+       
         powerpoint_convert.study_blanks()
         
 
@@ -70,12 +78,37 @@ class App:
                     self.numCorrect_label=Label(root, text="Percent correct: 100%")
                     self.numCorrect_label.pack()
             labelPreFormatted=powerpoint_convert.getCurrentLabel()
+            labelArray=labelPreFormatted.split()
             labelFormatted=""
-            for i in range(len(powerpoint_convert.getCurrentLabel())):
-                if(i%50==0):
-                    labelFormatted+="\n" + labelPreFormatted[i]
+            totalBlanks=0
+            study_answer_array=powerpoint_convert.study_sentences_filled_revised[powerpoint_convert.index].split()
+            for i in range(len(labelArray)):
+                if(i%8==0):
+                    print("Label Array: ")
+                    print(labelArray[i])
+                    if(labelArray[i]=="____"):
+                        totalBlanks=totalBlanks+1
+                        print("Total Blanks: ")
+                        print(totalBlanks)
+                    if(totalBlanks<=3):
+                        labelFormatted+="\n" + labelArray[i] + " "
+                    else:
+                        labelFormatted+="\n" + study_answer_array[i] + " "
                 else:
-                    labelFormatted+=labelPreFormatted[i]
+                    print("Label Array: ")
+                    print(labelArray[i])                    
+                    if(labelArray[i]=="____"):
+                        totalBlanks=totalBlanks+1
+                        print("Total Blanks: ")
+                        print(totalBlanks)
+                    if(totalBlanks<=3):
+                        labelFormatted+=labelArray[i] + " "
+                    else:
+                        labelFormatted+=study_answer_array[i] + " "
+
+            #Create the label with the blanks
+            self.currentPoint=labelFormatted
+            self.currentPointAnswer=study_answer_array
             self.studyLabel=Label(root, text=labelFormatted, width=80, height=10)
             self.studyLabel.pack(side=LEFT)
 
@@ -96,15 +129,16 @@ class App:
             self.studyCheck=Button(self.frame, text="Check", command=self.check)
             self.studyCheck.pack(side=LEFT)
     def check(self):
+        self.studyCheck.pack_forget()
         guiAnswer=powerpoint_convert.getAnswer()
         print(guiAnswer)
 
         if(len(powerpoint_convert.getAnswer())==0):
             next(self)
         else:
-            print("Actual answer: " + powerpoint_convert.getAnswer()[0] + ".")
-            print("Text box answer: "
-             + self.studyText.get()+".")
+            #print("Actual answer: " + powerpoint_convert.getAnswer()[0] + ".")
+            #print("Text box answer: "
+            # + self.studyText.get()+".")
             powerpoint_convert.study_sentences_revised.remove(powerpoint_convert.study_sentences[powerpoint_convert.index])
             powerpoint_convert.study_sentences_filled_revised.remove(powerpoint_convert.study_sentences_filled[powerpoint_convert.index])
 
@@ -119,8 +153,12 @@ class App:
                 self.resultsLabel=Label(root, text="Incorrect")
                 print("Incorrect")
                 self.total+=1.0
-                powerpoint_convert.missed.append(powerpoint_convert.study_sentences[powerpoint_convert.index])
-                powerpoint_convert.missed_filled.append(powerpoint_convert.study_sentences_filled[powerpoint_convert.index])
+                powerpoint_convert.missed.append("".join(self.currentPoint))
+                powerpoint_convert.missed_filled.append("".join(self.currentPointAnswer))
+                print("Missed: ")
+                print(powerpoint_convert.missed)
+                print("Missed filled: ")
+                print(powerpoint_convert.missed_filled)
                 self.resultsLabel.pack(side=LEFT)
         if (len(guiAnswer)==2):
             if(self.studyText.get()==guiAnswer[0]and self.studyText2.get()==guiAnswer[1]):
@@ -133,7 +171,12 @@ class App:
                 self.resultsLabel=Label(root, text="Incorrect")
                 print("Incorrect")
                 self.total+=1.0
-
+                powerpoint_convert.missed.append("".join(self.currentPoint))
+                powerpoint_convert.missed_filled.append("".join(self.currentPointAnswer))
+                print("Missed: ")
+                print(powerpoint_convert.missed)
+                print("Missed filled: ")
+                print(powerpoint_convert.missed_filled)
                 self.resultsLabel.pack(side=LEFT)
         if (len(guiAnswer)>=3):
             if(self.studyText.get()==guiAnswer[0]and self.studyText2.get()==guiAnswer[1] and self.studyText3.get()==guiAnswer[2]):
@@ -147,7 +190,12 @@ class App:
                 self.resultsLabel=Label(root, text="Incorrect")
                 print("Incorrect")
                 self.total+=1.0
-
+                powerpoint_convert.missed.append("".join(self.currentPoint))
+                powerpoint_convert.missed_filled.append(" ".join(self.currentPointAnswer))
+                print("Missed: ")
+                print(powerpoint_convert.missed)
+                print("Missed filled: ")
+                print(powerpoint_convert.missed_filled)
                 self.resultsLabel.pack(side=LEFT)                  
 
         self.nextButton=Button(self.frame, text="Next", command=self.next)
