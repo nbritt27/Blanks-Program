@@ -7,6 +7,7 @@ current_label=""
 index=0
 study_answer=[]
 missed=[]
+#reviewingMissed=False
 missed_filled=[]
 valuesChecked=[]
 study_sentences_filled_revised=[]
@@ -85,9 +86,11 @@ def study_blanks():
         question_check(index)
 
         print(index)'''
+        #if(reviewingMissed==False):
         study_answer_split=study_sentences_filled_revised[index].split()
+        #else:#If you are reviewing missed
+        #study_answer_split=study_sentences_filled_revised[index]
 
-        #for i in study_sentences:
         index_split=study_sentences_revised[index].split()
         for a in range(0, len(index_split)-1):
             current_label_local+=index_split[a] + " "
