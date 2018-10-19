@@ -9,4 +9,5 @@ To run the actual program, run
 ```
 python GUI.py
 ```
-I am also working on making the program into an executable file for Windows. 
+# Current Goals
+I am working on making the program into an executable file for Windows, as well as adding support for Microsoft Word files. 
