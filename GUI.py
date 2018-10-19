@@ -12,7 +12,7 @@ class App:
         self.showingReviewButton=False
         self.currentPoint=""
         self.currentPointAnswer=""
-
+        self.reviewMode=False
         self.intro_label=Label(master, text="Welcome to Blanks!")
         self.photo = PhotoImage(file="Britt_logo_0_0_1.gif")
 
@@ -23,7 +23,9 @@ class App:
         self.frame = Frame(master)
         
         self.frame.pack()
-        
+
+        #self.back_button=Button(self.frame, text="Back", command=self.back(powerpoint_convert.study_sentences_revised, powerpoint_convert.study_sentences_filled_revised))
+
         root.title("Britt Studios Blanks Program")
         
         self.intro_label=Label(text="Select file for conversion ")
@@ -40,20 +42,33 @@ class App:
     def go(self):
         self.choose_file.pack_forget()
         self.goButton.pack_forget()
+        self.blank_intensity.pack_forget()
         powerpoint_convert.convert_presentation(self.filename, self.blank_intensity.get("1.0", END))
         self.study_button=Button(self.frame, text="Study", command=self.study)
         self.study_button.pack(side=LEFT)
     def reviewMissed(self):
-        
-        #powerpoint_convert.reviewingMissed=True
+        self.reviewMode=True
+        self.study_sentences_backup=powerpoint_convert.study_sentences_revised
+        self.study_sentences_filled_backup=powerpoint_convert.study_sentences_filled_revised
+
+        self.back_button=Button(self.frame, text="Back", command=self.back)
+        self.back_button.pack(side=LEFT)
         powerpoint_convert.study_sentences_revised=powerpoint_convert.missed
         powerpoint_convert.study_sentences_filled_revised=powerpoint_convert.missed_filled
         print("study_sentences_revised: ")
         print(powerpoint_convert.study_sentences_revised)
         print("study_sentences_filled_revised: ")
+        
         print(powerpoint_convert.study_sentences_filled_revised)
-        #print(powerpoint_convert.study_sentences_revised)
         next(self)
+    def back (self):
+        print("back clicked")
+        self.back_button.pack_forget()
+        powerpoint_convert.study_sentences_revised=self.study_sentences_backup
+        powerpoint_convert.study_sentences_filled_revised=self.study_sentences_filled_backup
+        #powerpoint_convert.study_blanks()
+        self.study
+
     def study(self):
         self.study_button.pack_forget()
         if(self.total-self.numCorrect==1):
@@ -69,10 +84,10 @@ class App:
             next(self)
         else:
             try:
-                self.numCorrect_label['text']="Percent correct: " + (str((self.numCorrect/self.total)*100))+"%"
+                self.numCorrect_label['text']="Percent correct: " + (str(round(((self.numCorrect/self.total)*100), 1))+"%")
             except:
                 if(self.total>0):
-                    self.numCorrect_label=Label(root, text="Percent correct: " + (str((self.numCorrect/self.total)*100))+"%")
+                    self.numCorrect_label=Label(root, text="Percent correct: " + (str(round(((self.numCorrect/self.total)*100), 1))+"%"))
                     self.numCorrect_label.pack()
                 else:
                     self.numCorrect_label=Label(root, text="Percent correct: 100%")
@@ -125,7 +140,6 @@ class App:
                 self.studyText3=Entry(root)
                 self.studyText3.pack(side=LEFT)
 
-
             self.studyCheck=Button(self.frame, text="Check", command=self.check)
             self.studyCheck.pack(side=LEFT)
     def check(self):
@@ -136,11 +150,8 @@ class App:
         if(len(powerpoint_convert.getAnswer())==0):
             next(self)
         else:
-            #print("Actual answer: " + powerpoint_convert.getAnswer()[0] + ".")
-            #print("Text box answer: "
-            # + self.studyText.get()+".")
-            powerpoint_convert.study_sentences_revised.remove(powerpoint_convert.study_sentences[powerpoint_convert.index])
-            powerpoint_convert.study_sentences_filled_revised.remove(powerpoint_convert.study_sentences_filled[powerpoint_convert.index])
+            powerpoint_convert.study_sentences_revised.remove(powerpoint_convert.study_sentences_revised[powerpoint_convert.index])
+            powerpoint_convert.study_sentences_filled_revised.remove(powerpoint_convert.study_sentences_filled_revised[powerpoint_convert.index])
 
         if(len(powerpoint_convert.getAnswer())==1):
             if(self.studyText.get()==guiAnswer[0]):

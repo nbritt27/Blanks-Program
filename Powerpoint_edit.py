@@ -17,7 +17,7 @@ def convert_presentation(thisFile, thisBlankIntensity):
     global study_sentences_revised
     text_runs=[]#Instantiate the array that will store each sentence
     prs = Presentation(thisFile)#Load the presentation
-    checkList=["the", "is", "a", "as", "of", "and", "or"]#Values in this list will not be converted into blanks
+    checkList=["the","of","and","a","to","in","is","you","that","it","he","was","for","on","are","as","with","his","they","I","at","be","this","have","from","or","one","had","by","word","but","not","what","all","were","we","when","your","can","said","there","use","an","each","which","she","do","how","their","if","will","up","other","about","out","many","then","them","these","so","some","her","would","make","like","him","into","time","has","look","two","more","write","go","see","number","no","way","could","people","my","than","first","water","been","call","who","oil","its","now","find","long","down","day","did","get","come","made","may","part"]#Values in this list will not be converted into blanks
     file_split_string=""#will be used to join the words in the sentence back together
     for slide in prs.slides:#Go through each slide
         for shape in slide.shapes:#Go through each section
@@ -60,15 +60,7 @@ def convert_presentation(thisFile, thisBlankIntensity):
     newFileString+="_blanks.pptx"#Add the extension
     print(newFileString)
     prs.save(str(newFileString))#Save the file
-'''def question_check(i):
-    global index
-    if i in valuesChecked:
 
-        print("Index selected: " + str(i) + " valuesChecked: " + str(valuesChecked))
-        print("This value has already occured")
-        index=random.randint(0, len(study_sentences)-1)
-        question_check(index)
-        '''
 def study_blanks():
     #Instance variables
     global current_label
@@ -83,13 +75,7 @@ def study_blanks():
     if(len(study_sentences_revised)!=0):
         index=random.randint(0, len(study_sentences_revised)-1)
         print(index)
-        '''print("******")
-        print(index)
-        print(valuesChecked)
-        print("******")
-        question_check(index)
-
-        print(index)'''
+      
         #if(reviewingMissed==False):
         study_answer_split=study_sentences_filled_revised[index].split()
         #else:#If you are reviewing missed
