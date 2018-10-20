@@ -1,6 +1,10 @@
-from Tkinter import *
-from tkFileDialog import askopenfilename
+
 import Powerpoint_edit as powerpoint_convert
+from PIL import ImageTk
+from tkinter import filedialog
+
+from tkinter import *
+
 Tk().withdraw() # only draw the window needed, not the entire gui
 
 root = Tk()
@@ -14,11 +18,11 @@ class App:
         self.currentPointAnswer=""
         self.reviewMode=False
         self.intro_label=Label(master, text="Welcome to Blanks!")
-        self.photo = PhotoImage(file="Britt_logo_0_0_1.gif")
+        #self.photo = PhotoImage(file="Britt_logo_0_0_1.gif")
 
 
-        self.w = Label(image=self.photo)
-        self.w.pack(side=TOP)
+        #self.w = Label(image=self.photo)
+        #self.w.pack(side=TOP)
         self.intro_label.pack()
         self.frame = Frame(master)
         
@@ -248,5 +252,9 @@ class App:
         self.newLabel.pack(side=LEFT)
     def create_study_label(self, label):
         self.tempLabel=Label(text=label)
+    def resource_path(self,relative_path):
+        if hasattr(sys, '_MEIPASS'):
+            return os.path.join(sys._MEIPASS, relative_path)
+        return os.path.join(os.path.abspath("."), relative_path)
 app = App(root)
 root.mainloop()
