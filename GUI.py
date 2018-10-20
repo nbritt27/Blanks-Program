@@ -2,7 +2,6 @@
 import Powerpoint_edit as powerpoint_convert
 from PIL import ImageTk
 from tkinter import filedialog
-
 from tkinter import *
 
 Tk().withdraw() # only draw the window needed, not the entire gui
@@ -17,21 +16,22 @@ class App:
         self.currentPoint=""
         self.currentPointAnswer=""
         self.reviewMode=False
-        self.intro_label=Label(master, text="Welcome to Blanks!")
+        
+        self.frame = Frame(master)
+        
+        self.frame.pack()
+        self.intro_label=Label(self.frame, text="Welcome to Blanks!")
         #self.photo = PhotoImage(file="Britt_logo_0_0_1.gif")
 
 
         #self.w = Label(image=self.photo)
         #self.w.pack(side=TOP)
         self.intro_label.pack()
-        self.frame = Frame(master)
-        
-        self.frame.pack()
-
         #self.back_button=Button(self.frame, text="Back", command=self.back(powerpoint_convert.study_sentences_revised, powerpoint_convert.study_sentences_filled_revised))
 
         root.title("Britt Studios Blanks Program")
-        
+        self.restart_button=Button(self.frame, text="Restart", command=self.restart)
+        self.restart_button.pack()
         self.intro_label=Label(text="Select file for conversion ")
         self.intro_label.pack()
 
@@ -42,7 +42,11 @@ class App:
         self.goButton = Button(self.frame, text="Go", command=self.go, background="cyan")
         self.goButton.config(background="blue")
         self.goButton.pack(side=LEFT)
-
+    def restart(self):
+        self.frame.pack_forget()
+        app = App(root)
+        root.mainloop()
+    
     def go(self):
         self.choose_file.pack_forget()
         self.goButton.pack_forget()
@@ -238,7 +242,7 @@ class App:
         
         
     def pick_file(self):
-        self.filename = askopenfilename() # show an "Open" dialog box and return the path to the selected file
+        self.filename = filedialog.askopenfilename() # show an "Open" dialog box and return the path to the selected file
         abbrreviated_name=""
         i=len(self.filename)-1
         while i>0:
