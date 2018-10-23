@@ -9,5 +9,6 @@ To run the actual program, run
 ```
 python GUI.py
 ```
+There is also an exe download available in the "dist" folder. It's still very buggy, and the actual study tool works about half the time.
 # Current Goals
 I am working on making the program into an executable file for Windows, as well as adding support for Microsoft Word files. 
