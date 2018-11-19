@@ -63,11 +63,13 @@ class App:
         self.back_button.pack(side=LEFT)
         powerpoint_convert.study_sentences_revised=powerpoint_convert.missed
         powerpoint_convert.study_sentences_filled_revised=powerpoint_convert.missed_filled
-        print("study_sentences_revised: ")
         print(powerpoint_convert.study_sentences_revised)
-        print("study_sentences_filled_revised: ")
-        
         print(powerpoint_convert.study_sentences_filled_revised)
+        #print("study_sentences_revised: ")
+        #print(powerpoint_convert.study_sentences_revised)
+        #print("study_sentences_filled_revised: ")
+        
+        #print(powerpoint_convert.study_sentences_filled_revised)
         next(self)
     def back (self):
         print("back clicked")
@@ -107,23 +109,23 @@ class App:
             study_answer_array=powerpoint_convert.study_sentences_filled_revised[powerpoint_convert.index].split()
             for i in range(len(labelArray)):
                 if(i%8==0):
-                    print("Label Array: ")
-                    print(labelArray[i])
+                    #print("Label Array: ")
+                    #print(labelArray[i])
                     if(labelArray[i]=="____"):
                         totalBlanks=totalBlanks+1
-                        print("Total Blanks: ")
-                        print(totalBlanks)
+                        #print("Total Blanks: ")
+                        #print(totalBlanks)
                     if(totalBlanks<=3):
                         labelFormatted+="\n" + labelArray[i] + " "
                     else:
                         labelFormatted+="\n" + study_answer_array[i] + " "
                 else:
-                    print("Label Array: ")
-                    print(labelArray[i])                    
+                    #print("Label Array: ")
+                    #print(labelArray[i])                    
                     if(labelArray[i]=="____"):
                         totalBlanks=totalBlanks+1
-                        print("Total Blanks: ")
-                        print(totalBlanks)
+                        #print("Total Blanks: ")
+                        #print(totalBlanks)
                     if(totalBlanks<=3):
                         labelFormatted+=labelArray[i] + " "
                     else:
@@ -153,7 +155,7 @@ class App:
     def check(self):
         self.studyCheck.pack_forget()
         guiAnswer=powerpoint_convert.getAnswer()
-        print(guiAnswer)
+        #print(guiAnswer)
 
         if(len(powerpoint_convert.getAnswer())==0):
             next(self)
@@ -164,63 +166,73 @@ class App:
         if(len(powerpoint_convert.getAnswer())==1):
             if(self.studyText.get()==guiAnswer[0]):
                     self.resultsLabel=Label(root, text="Correct")
-                    print("Correct")
+                    #print("Correct")
                     self.numCorrect+=1.0
                     self.total+=1.0
                     self.resultsLabel.pack(side=LEFT)
             else:
                 self.resultsLabel=Label(root, text="Incorrect")
-                print("Incorrect")
+                #print("Incorrect")
                 self.total+=1.0
                 powerpoint_convert.missed.append("".join(self.currentPoint))
-                powerpoint_convert.missed_filled.append("".join(self.currentPointAnswer))
-                print("Missed: ")
-                print(powerpoint_convert.missed)
-                print("Missed filled: ")
-                print(powerpoint_convert.missed_filled)
+                powerpoint_convert.missed_filled.append(" ".join(self.currentPointAnswer))
+                #print(len(powerpoint_convert.missed))
+                #print(powerpoint_convert.missed)
+
+                #print("Missed: ")
+                #print(powerpoint_convert.missed)
+                #print("Missed filled: ")
+                #print(powerpoint_convert.missed_filled)
                 self.resultsLabel.pack(side=LEFT)
         if (len(guiAnswer)==2):
             if(self.studyText.get()==guiAnswer[0]and self.studyText2.get()==guiAnswer[1]):
                 self.resultsLabel=Label(root, text="Correct")
-                print("Correct")
+                #print("Correct")
                 self.numCorrect+=1.0
                 self.total+=1.0
                 self.resultsLabel.pack(side=LEFT)    
             else:
                 self.resultsLabel=Label(root, text="Incorrect")
-                print("Incorrect")
+                #print("Incorrect")
                 self.total+=1.0
                 powerpoint_convert.missed.append("".join(self.currentPoint))
                 powerpoint_convert.missed_filled.append("".join(self.currentPointAnswer))
-                print("Missed: ")
-                print(powerpoint_convert.missed)
-                print("Missed filled: ")
-                print(powerpoint_convert.missed_filled)
+                #print(len(powerpoint_convert.missed))
+                #print(powerpoint_convert.missed)
+                #print("Missed: ")
+                #print(powerpoint_convert.missed)
+                #print("Missed filled: ")
+                #print(powerpoint_convert.missed_filled)
                 self.resultsLabel.pack(side=LEFT)
         if (len(guiAnswer)>=3):
             if(self.studyText.get()==guiAnswer[0]and self.studyText2.get()==guiAnswer[1] and self.studyText3.get()==guiAnswer[2]):
                 self.resultsLabel=Label(root, text="Correct")
-                print("Correct")
+                #print("Correct")
                 self.numCorrect+=1.0
                 self.total+=1.0
 
                 self.resultsLabel.pack(side=LEFT)    
             else:
                 self.resultsLabel=Label(root, text="Incorrect")
-                print("Incorrect")
+                #print("Incorrect")
                 self.total+=1.0
                 powerpoint_convert.missed.append("".join(self.currentPoint))
                 powerpoint_convert.missed_filled.append(" ".join(self.currentPointAnswer))
-                print("Missed: ")
-                print(powerpoint_convert.missed)
-                print("Missed filled: ")
-                print(powerpoint_convert.missed_filled)
+                #print(len(powerpoint_convert.missed))
+                #print(powerpoint_convert.missed)
+                #print("Missed: ")
+                #print(powerpoint_convert.missed)
+                #print("Missed filled: ")
+                #print(powerpoint_convert.missed_filled)
                 self.resultsLabel.pack(side=LEFT)                  
 
         self.nextButton=Button(self.frame, text="Next", command=self.next)
         self.nextButton.pack(side=LEFT)
+
+    
     def next(self):
         if(len(powerpoint_convert.study_answer)!=0):
+            print("Length is not")
             self.studyText.pack_forget()
             if(len(powerpoint_convert.getAnswer())!=0):
                 self.resultsLabel.pack_forget()
@@ -238,6 +250,7 @@ class App:
             self.studyCheck.pack_forget()
             self.study()
         else:
+            print("length is zero")
             self.study()
         
         

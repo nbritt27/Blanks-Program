@@ -49,7 +49,7 @@ def convert_presentation(thisFile, thisBlankIntensity):
                 study_sentences.append(study_sentences_text)#Add the sentence to the possible questions
                 study_sentences_filled.append(study_sentences_filled_text)#Add a filled version of the sentence to the answer key
                 paragraph.text=paragraph_text#Change the text to include the blanks
-    print(study_sentences)
+    #print(study_sentences)
     study_sentences_revised=study_sentences
     study_sentences_filled_revised=study_sentences_filled
     newFileString=""
@@ -58,7 +58,7 @@ def convert_presentation(thisFile, thisBlankIntensity):
         if (len(thisFile)-1)-i>4:#Make sure you don't include the powerpoint extension
             newFileString+=thisFile[i]#Add the file name without the extension to the string
     newFileString+="_blanks.pptx"#Add the extension
-    print(newFileString)
+    #print(newFileString)
     prs.save(str(newFileString))#Save the file
 
 def study_blanks():
@@ -74,7 +74,7 @@ def study_blanks():
     #End of instance variables
     if(len(study_sentences_revised)!=0):
         index=random.randint(0, len(study_sentences_revised)-1)
-        print(index)
+        #print(index)
       
         #if(reviewingMissed==False):
         study_answer_split=study_sentences_filled_revised[index].split()
@@ -89,13 +89,13 @@ def study_blanks():
                 study_answer.append(str(study_answer_split[a]))
         if(len(current_label)==0):
             current_label=study_sentences_revised[index]
-            print(current_label_local)
-            print(current_label)
-            print(getCurrentLabel())
-        print(study_answer)
-        print(current_label)
+            #print(current_label_local)
+            #print(current_label)
+            #print(getCurrentLabel())
+        #print(study_answer)
+        #print(current_label)
 def getCurrentLabel():
-    print(current_label)
+    #print(current_label)
     return current_label
 
 def getAnswer():
