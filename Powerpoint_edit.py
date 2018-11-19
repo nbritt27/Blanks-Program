@@ -22,7 +22,7 @@ def convert_presentation(thisFile, thisBlankIntensity):
     for slide in prs.slides:#Go through each slide
         for shape in slide.shapes:#Go through each section
             if not shape.has_text_frame:#If it's not a text-frame
-                continue#don't go through the rest of the program
+                break#don't go through the rest of the program
 
             for paragraph in shape.text_frame.paragraphs:#Go through each part of the paragraph
                 #Instance variables
