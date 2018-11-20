@@ -14,4 +14,4 @@ python GUI.py
 ```
 There is also an exe download available in the "dist" folder. It's still very buggy, and the actual study tool works about half the time. It contains the version of the program as of October 19, 2018, and I plan on updating it soon.
 # Current Goals
-I am working on making the program into an executable file for Windows, as well as adding support for Microsoft Word files. 
+I am currently working on making the program compatable with converting Word files in addition to Powerpoint files.
