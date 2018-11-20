@@ -11,10 +11,13 @@ missed=[]
 missed_filled=[]
 valuesChecked=[]
 study_sentences_filled_revised=[]
-study_sentences_revised=[]
+study_sentences_revised=[]    
+newFileString=""
+
 def convert_presentation(thisFile, thisBlankIntensity):
     global study_sentences_filled_revised
     global study_sentences_revised
+    global newFileString
     text_runs=[]#Instantiate the array that will store each sentence
     prs = Presentation(thisFile)#Load the presentation
     checkList=["the","of","and","a","to","in","is","you","that","it","he","was","for","on","are","as","with","his","they","I","at","be","this","have","from","or","one","had","by","word","but","not","what","all","were","we","when","your","can","said","there","use","an","each","which","she","do","how","their","if","will","up","other","about","out","many","then","them","these","so","some","her","would","make","like","him","into","time","has","look","two","more","write","go","see","number","no","way","could","people","my","than","first","water","been","call","who","oil","its","now","find","long","down","day","did","get","come","made","may","part"]#Values in this list will not be converted into blanks
@@ -52,7 +55,6 @@ def convert_presentation(thisFile, thisBlankIntensity):
     #print(study_sentences)
     study_sentences_revised=study_sentences
     study_sentences_filled_revised=study_sentences_filled
-    newFileString=""
     
     for i in range(len(thisFile)-1):#Go through each character of the file name
         if (len(thisFile)-1)-i>4:#Make sure you don't include the powerpoint extension

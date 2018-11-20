@@ -3,13 +3,16 @@ import Powerpoint_edit as powerpoint_convert
 from PIL import ImageTk
 from tkinter import filedialog
 from tkinter import *
-
+from docx import Document
+from docx.shared import Inches
 Tk().withdraw() # only draw the window needed, not the entire gui
 
 root = Tk()
 class App:
 
     def __init__(self, master):
+        self.document = Document()
+
         self.numCorrect=0.0
         self.total=0.0
         self.showingReviewButton=False
@@ -42,11 +45,32 @@ class App:
         self.goButton = Button(self.frame, text="Go", command=self.go, background="cyan")
         self.goButton.config(background="blue")
         self.goButton.pack(side=LEFT)
+
+        self.outlineButton=Button(self.frame, text="Make Outline", command=self.outline)
+        self.outlineButton.pack(side=LEFT)
     def restart(self):
         self.frame.pack_forget()
         app = App(root)
         root.mainloop()
     
+    def outline(self):
+        for a in range(0, len(powerpoint_convert.study_sentences)-1):
+            self.document.add_paragraph(powerpoint_convert.study_sentences[a])
+            sentences_blanked=powerpoint_convert.study_sentences[a].split(" ")
+            sentences_filled=powerpoint_convert.study_sentences_filled[a].split(" ")
+            temp_study_answer=""
+            for b in range(0, len(sentences_blanked)-1):
+                if sentences_blanked[b] =="____":
+                    temp_study_answer+=sentences_filled[b] + ", "
+            p=self.document.add_paragraph("")
+            p.add_run(temp_study_answer).bold=True
+        outline_filename=powerpoint_convert.newFileString[0:len(powerpoint_convert.newFileString)-13]
+        outline_filename+="_outline.docx"
+        self.document.save(outline_filename)
+
+
+
+
     def go(self):
         self.choose_file.pack_forget()
         self.goButton.pack_forget()
@@ -155,7 +179,7 @@ class App:
     def check(self):
         self.studyCheck.pack_forget()
         guiAnswer=powerpoint_convert.getAnswer()
-        #print(guiAnswer)
+        print(guiAnswer)
 
         if(len(powerpoint_convert.getAnswer())==0):
             next(self)
@@ -196,7 +220,7 @@ class App:
                 #print("Incorrect")
                 self.total+=1.0
                 powerpoint_convert.missed.append("".join(self.currentPoint))
-                powerpoint_convert.missed_filled.append("".join(self.currentPointAnswer))
+                powerpoint_convert.missed_filled.append(" ".join(self.currentPointAnswer))
                 #print(len(powerpoint_convert.missed))
                 #print(powerpoint_convert.missed)
                 #print("Missed: ")
